@@ -30,13 +30,15 @@ let mainWindow = new BrowserWindow({
   },
 });
 
-!app.isPackaged
-    ? mainWindow.loadURL(devServerURL)
-    : mainWindow.loadFile(...fileRoute)
 
+mainWindow.maximize()
 
-
-    mainWindow.webContents.openDevTools({ mode: 'detach' })
+    if(app.isPackaged){
+      mainWindow.loadFile(...fileRoute)
+    }else{
+      mainWindow.webContents.openDevTools({ mode: 'detach' })
+      mainWindow.loadURL(devServerURL)
+    }
 
 module.exports = mainWindow;
 

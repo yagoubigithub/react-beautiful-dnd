@@ -1,4 +1,4 @@
-const { app } = require("electron");
+const { app , globalShortcut } = require("electron");
 
 
 
@@ -10,6 +10,15 @@ app.on("ready", async () => {
 
   //dev tools for installing extention help to develop
 
+  const ret = globalShortcut.register('CommandOrControl+L', () => {
+    console.log('CommandOrControl+L is pressed')
+    mainWindow.webContents.send(":save",{})
+  })
+
+  const copy = globalShortcut.register('CommandOrControl+T', () => {
+    console.log('CommandOrControl+T is pressed')
+    mainWindow.webContents.send(":create",{})
+  })
 
 //   const DevTools = require('./devTools')
 //   const devTools = new DevTools(!app.isPackaged);

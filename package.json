@@ -3,12 +3,10 @@
   "version": "0.1.7",
   "private": true,
   "author": "yagoubi abdelkader <yagoubi.aek.2@gmail.com>",
-
   "main": "./public/electron.js",
   "homepage": "./",
   "build": {
     "appId": "com.react.beautiful.dnd",
-    
     "files": [
       "build/**/*",
       "node_modules/**/*",
@@ -72,19 +70,34 @@
     "copyright": "yagoubi abdelkader"
   },
   "dependencies": {
+    "@atlaskit/theme": "^12.3.0",
+    "@emotion/core": "^11.0.0",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "@xstyled/core": "^3.8.0",
+    "@xstyled/styled-components": "^3.8.0",
+    "@xstyled/system": "^3.8.0",
     "bootstrap": "^5.2.3",
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
     "electron-router-dom": "^1.0.5",
     "moment": "^2.29.4",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-bootstrap": "^2.7.2",
+    "react-cool-onclickoutside": "^1.7.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.8.0",
     "react-router-dom": "6",
     "react-scripts": "5.0.1",
+    "reactstrap": "^9.1.9",
+    "styled-components": "^5.3.9",
+    "use-events": "^1.4.2",
+    "uuidv4": "^6.2.13",
     "wait-on": "^7.0.1",
     "web-vitals": "^2.1.0"
   },
