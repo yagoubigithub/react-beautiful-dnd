@@ -20,7 +20,7 @@ const Container = styled.div`
 `;
 
 const Dnd = () => {
-  const { data, setData  , save  } = useContext(Context);
+  const { data, setData  , save , SaveAllData  } = useContext(Context);
 
 
   const handleClick = (event) =>{
@@ -48,7 +48,9 @@ const Dnd = () => {
   const create = async ()=>{
 
       
-    const _data = [...data]
+    const _data = JSON.parse(localStorage.getItem("data"));
+
+    console.log(_data)
     
     const text = await navigator.clipboard.readText();
    const id  = uuid()
@@ -67,7 +69,7 @@ const Dnd = () => {
     cards.unshift(card)
     selectedList.cards = cards;
    
-    setData([..._data.map((list)=>{
+    const newData = [..._data.map((list)=>{
 
     
       list.cards = [...list.cards.map(card=>{
@@ -79,7 +81,9 @@ const Dnd = () => {
       if(list === selectedList) return selectedList
       return list
 
-    })])
+    })]
+    SaveAllData(newData)
+    setData(newData)
 
   }
   const reorder = (list, startIndex, endIndex) => {
@@ -113,6 +117,7 @@ const Dnd = () => {
 
       
       setData(ordered_data);
+      SaveAllData(ordered_data)
 
       return;
     }
@@ -120,6 +125,7 @@ const Dnd = () => {
     const ordered_data = reorderCads(data, result);
 
     setData(ordered_data);
+    SaveAllData(ordered_data)
   };
   const reorderCads = (data, result) => {
     

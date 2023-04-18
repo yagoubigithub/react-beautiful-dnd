@@ -25,6 +25,18 @@ contextBridge.exposeInMainWorld('electron', {
         return () => {
             ipcRenderer.removeListener(":create", callback);
         };
+    },
+    getAllData: (callback) => {
+        
+        ipcRenderer.send(":get-all-data", {});
+        callback()
+       
+    },
+    allData :  (callback)=>{
+        ipcRenderer.on(":all-data", callback);
+        return () => {
+            ipcRenderer.removeListener(":all-data", callback);
+        };
     }
 
 });

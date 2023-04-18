@@ -20,8 +20,10 @@ const fileRoute = createFileRoute(
 
 let mainWindow = new BrowserWindow({
   show: true,
-  height: 680,
-  width: 950,
+  height: 1040,
+  width: 1920,
+  minWidth : 1920,
+  minHeight : 1040,
   useContentSize: true,
   // frame : false,
   webPreferences: {
@@ -31,7 +33,7 @@ let mainWindow = new BrowserWindow({
 });
 
 
-mainWindow.maximize()
+
 
     if(app.isPackaged){
       mainWindow.loadFile(...fileRoute)

@@ -24,6 +24,17 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+const Title = styled.div`
+font-family: 'Zen Maru Gothic';
+font-style: normal;
+font-weight: 700;
+font-size: 12px;
+line-height: 17px;
+display: flex;
+align-items: center;
+
+color: #000000;
+`;
 function getStyle(provided, style) {
   if (!style) {
     return provided.draggableProps.style;
@@ -37,11 +48,11 @@ function getStyle(provided, style) {
 
 
 const List = ({ list, listIndex }) => {
-  const { setData, data } = useContext(Context);
+  const { setData, data ,  SaveAllData } = useContext(Context);
 
   const addCard = () => {
     const _data = [...data];
-    setData(_data.map(_list=>{
+    const newData = _data.map(_list=>{
       if(_list.id === list.id){
         _list.cards = [..._list.cards.map(card=>{
           return {...card, edit : false}
@@ -54,14 +65,17 @@ const List = ({ list, listIndex }) => {
         }]
       }
       return _list;
-    }))
+    });
+
+    setData(newData);
+
+    SaveAllData(newData);
   }
   const setEdit =  (list) => {
 
-    console.log("edit" , list , listIndex)
+    
     const _data = [...data];
-   
-    setData(_data.map(_list=>{
+    const newData = _data.map(_list=>{
       if(list.id === _list.id){
         return {
           ..._list,
@@ -77,7 +91,10 @@ const List = ({ list, listIndex }) => {
         }
       }
 
-    }))
+    })
+   
+    setData(newData)
+    SaveAllData(newData)
   }
   return (
     <Draggable draggableId={`${list.id}`} index={listIndex}>
@@ -93,21 +110,18 @@ const List = ({ list, listIndex }) => {
                 <span>
                   {/* {list.pinned && <TbPinned />} */}
 
-                  <h5
+                  <Title
                     contentEditable={true}
-                    style={{
-                      margin: 0,
-                      padding: 0,
-                    }}
+                   
                     suppressContentEditableWarning={true}
                   >
                     {list.name}
-                  </h5>
+                  </Title>
                 </span>
 
-                    <span  onClick={addCard} style={{cursor : "pointer !important"}}>
+                    <span  onClick={addCard} style={{cursor : "pointer !important" , marginRight : 47 , color: "#92929D"  , fontSize :  15 }}>
 
-                    <GrAdd />
+                   +
                     </span>
               </>
             </Header>

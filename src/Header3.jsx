@@ -15,7 +15,7 @@ const Container = styled.div`
   align-items: center;
 `;
 const Header = () => {
-  const { setData, data } = useContext(Context);
+  const { setData, data , SaveAllData } = useContext(Context);
 
   const addList = () => {
     const _data = [...data];
@@ -25,7 +25,8 @@ const Header = () => {
       cards: [],
       edit: true,
     });
-
+    
+    SaveAllData(_data)
     setData(_data);
   };
   return (

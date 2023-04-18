@@ -12,6 +12,7 @@ const Container = styled.div`
 
 
   margin-bottom: 8px;
+  min-height :48px;
 
   padding: 8px;
 `;
@@ -21,14 +22,26 @@ const Link = styled.div`
   font-style: normal;
   font-weight: 400;
 
-  color: #30976f;
+  color: #30976F;
+
   white-space: pre-line;
+  
+font-size: 10px;
+line-height: 12px;
 `;
+
 
 const Comment = styled.div`
 
 
-  color:  #4F70CE;
+ 
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 12px;
+
+color: #4F70CE;
   white-space: pre-line;
   
 `;
@@ -36,8 +49,14 @@ const Comment = styled.div`
 const Title = styled.div`
 
 
-  color:  #000;
-  font-weight : bold;
+  
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  
+  color: #000000;
   white-space: pre-line;
   
 `;
@@ -77,6 +96,8 @@ const Card = ({ card, listId,provided  }) => {
       ...newValue,
       [key]: e.target.innerText,
     });
+    
+    
   };
 
  
@@ -91,11 +112,13 @@ const Card = ({ card, listId,provided  }) => {
      
       onContextMenu={(e) => handleRightClick(e, listId, card.id)}
     >
-      <div style={{ display: "flex" }}>
-        <MdOutlinePerson size="25" />
+    <div style={{ display: "flex" , justifyContent : "space-between"}}>
+
+    <div style={{ display: "flex"  }}>
+        <MdOutlinePerson size="14" style={{marginRight : 5}} />
         <Link
           href={card.url}
-          onInput={(e) => handleInput(e,"url", `card-url-${card.id}`)}
+          onInput={(e) => handleInput(e,"url", card.id)}
           contentEditable={card.edit}
           suppressContentEditableWarning={true}
           id={`card-url-${card.id}`}
@@ -103,11 +126,26 @@ const Card = ({ card, listId,provided  }) => {
           {card.url}
         </Link>
       </div>
+      <span style={{
+       
+        fontStyle: "normal",
+        fontWeight: "400",
+        fontSize: "10px",
+        lineHeight: "12px",
+        display: "flex",
+        alignItems: "center",
+        textAlign: "right",
+        
+        color: "#92929D"
+        
+      }}>ID : {card.id.split("-")[0]}</span>
+
+    </div>
       <Title
         contentEditable={card.edit}
         suppressContentEditableWarning={true}
         id={`card-title-${card.id}`}
-        onInput={(e) => handleInput(e, "title", `card-title-${card.id}`)}
+        onInput={(e) => handleInput(e, "title", card.id)}
       >
         {card.title}
       </Title>
@@ -121,7 +159,7 @@ const Card = ({ card, listId,provided  }) => {
               suppressContentEditableWarning={true}
               data-placeholder="Enter comment here"
               id={`card-comment-${card.id}`}
-              onInput={(e) => handleInput(e, "comment", `card-comment-${card.id}`)}
+              onInput={(e) => handleInput(e, "comment", card.id)}
             >
               {card.comment}
             </Comment>
@@ -134,7 +172,7 @@ const Card = ({ card, listId,provided  }) => {
           contentEditable={card.edit}
           suppressContentEditableWarning={true}
           id={`card-comment-${card.id}`}
-          onInput={(e) => handleInput(e, "comment", `card-comment-${card.id}`)}
+          onInput={(e) => handleInput(e, "comment", card.id)}
         >
           {card.comment}
         </Comment>

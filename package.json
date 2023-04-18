@@ -83,6 +83,7 @@
     "bootstrap": "^5.2.3",
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
+    "electron-db": "^0.15.7",
     "electron-router-dom": "^1.0.5",
     "moment": "^2.29.4",
     "prop-types": "^15.8.1",

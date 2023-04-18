@@ -5,6 +5,7 @@ const { app , globalShortcut } = require("electron");
 app.on("ready", async () => {
   
  
+  let db = require("./db");
 
   let mainWindow = require("./windows/mainWindow");
 

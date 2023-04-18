@@ -7,18 +7,6 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 import { colors } from "@atlaskit/theme";
 import styled from "@xstyled/styled-components";
 
-
-
-const Container = styled.div`
-
-
-padding-top : 8px;
-
-
-
- 
-`;
-
 const getBackgroundColor = (isDraggingOver, isDraggingFrom) => {
   if (isDraggingOver) {
     return '#FFEBE6';
@@ -29,8 +17,19 @@ const getBackgroundColor = (isDraggingOver, isDraggingFrom) => {
   return '#EBECF0';
 };
 
+
+const Container = styled.div`
+
+padding-top : 8px;
+background-color: ${(props) => getBackgroundColor(props.isDraggingOver, props.isDraggingFrom)};
+
+min-height : 350px;
+ 
+`;
+
+
 const Wrapper = styled.div`
-  background-color: ${(props) => getBackgroundColor(props.isDraggingOver, props.isDraggingFrom)};
+ 
   display: flex;
   flex-direction: column;
   opacity: ${({ isDropDisabled }) => (isDropDisabled ? 0.5 : 'inherit')};
@@ -59,20 +58,20 @@ const ListContent = ({list , listIndex  , listType , snapshot}) => {
    {(dropProvided, dropSnapshot)=>{
 
      return(
-      <Container   ref={dropProvided.innerRef}>
+      <Container   ref={dropProvided.innerRef} style={{
+        backgroundColor: snapshot.isDragging ? colors.G50 : null
+      }}
+      isDraggingOver={dropSnapshot.isDraggingOver}
+      isDropDisabled={false}
+      isDraggingFrom={Boolean(dropSnapshot.draggingFromThisWith)}
+      {...dropProvided.droppableProps}>
       {list.cards && list.cards.map((card , cardIndex)=>{
           return (
           
             <Wrapper
             key={`${card.id}`}
             
-            style={{
-              backgroundColor: snapshot.isDragging ? colors.G50 : null
-            }}
-            isDraggingOver={dropSnapshot.isDraggingOver}
-            isDropDisabled={false}
-            isDraggingFrom={Boolean(dropSnapshot.draggingFromThisWith)}
-            {...dropProvided.droppableProps}
+            
           >
 
           <Draggable draggableId={`${card.id}`} index={cardIndex}>
