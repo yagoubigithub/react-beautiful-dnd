@@ -23,7 +23,7 @@ const Container = styled.div`
 padding-top : 8px;
 background-color: ${(props) => getBackgroundColor(props.isDraggingOver, props.isDraggingFrom)};
 
-min-height : 350px;
+min-height : calc(480px - 42px);
  
 `;
 

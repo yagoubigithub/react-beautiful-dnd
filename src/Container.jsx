@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React ,  {useEffect , useContext} from 'react'
 
 import { Context } from "./context";
-import mydata from "./data3"
+
 const Container = ({children}) => {
 
      const { data ,   SaveAllData  } = useContext(Context);

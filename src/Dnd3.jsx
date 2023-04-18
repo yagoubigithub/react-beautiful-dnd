@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable eqeqeq */
 import React, { useContext  , useEffect} from "react";
 
 import styled from "@xstyled/styled-components";

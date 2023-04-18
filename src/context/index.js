@@ -54,6 +54,7 @@ function ContextProvider(props) {
   };
 
   const SaveAllData = (_data) => {
+    console.log(_data)
     setData([..._data]);
 
     const jsonstrin = JSON.stringify([..._data]);

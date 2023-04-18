@@ -37,10 +37,13 @@ let mainWindow = new BrowserWindow({
 
     if(app.isPackaged){
       mainWindow.loadFile(...fileRoute)
+      mainWindow.removeMenu()
     }else{
       mainWindow.webContents.openDevTools({ mode: 'detach' })
       mainWindow.loadURL(devServerURL)
     }
+
+    
 
 module.exports = mainWindow;
 
