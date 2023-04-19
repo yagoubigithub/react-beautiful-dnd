@@ -40,10 +40,10 @@ const Title = styled.div`
 
   color: #000000;
   width: 225px;
-  outline:none;
+  outline: none;
   &::selection {
     background: rgba(64, 70, 116, 0.2);
-    color: #92929D;
+    color: #92929d;
   }
 `;
 function getStyle(provided, style) {
@@ -85,7 +85,6 @@ const List = ({ list, listIndex }) => {
     SaveAllData(newData);
   };
   const setEdit = (list) => {
-    
     const _data = [...data];
     const newData = _data.map((_list) => {
       if (list.id === _list.id) {
@@ -108,79 +107,137 @@ const List = ({ list, listIndex }) => {
   const hoverAddButtton = (event) => {
     event.target.style.cursor = "pointer";
   };
-  const deleteList = (event , id) => {
+  const deleteList = (event, id) => {
     event.stopPropagation();
     const _data = [...data];
 
     const removeIndex = _data.map((item) => item.id).indexOf(id);
-    console.log(removeIndex)
 
-    if(removeIndex >= 0){
-   const remeved =    _data.splice(removeIndex, 1);
-   console.log(remeved)
+    if (removeIndex >= 0) {
+      const remeved = _data.splice(removeIndex, 1);
+      console.log(remeved);
     }
-    
-   
 
     setData([..._data]);
     SaveAllData([..._data]);
   };
-  return (
-    <Draggable draggableId={`${list.id}`} index={listIndex}>
-      {(provided, snapshot) => {
-        return (
-          <Container
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-            style={getStyle(provided, {})}
-          >
-            <Header {...provided.dragHandleProps}
-            
-             onClick={() => setEdit(list)}
-            
+  const startList = (list) => (
+    <Container style={{ position: "fixed"  }}>
+      <Header onClick={() => setEdit(list)}>
+        <>
+          <span style={{ display: "flex" }}>
+            {list.pinned && (
+              <img src="./img/pin.png" style={{ marginRight: 4 }} />
+            )}
+
+            <Title
+              contentEditable={list.editmode}
+              suppressContentEditableWarning={true}
+              id={`edit-name-${list.id}`}
             >
-              <>
-                <span>
-                  {/* {list.pinned && <TbPinned />} */}
+              {list.name}
+            </Title>
+          </span>
 
-                  <Title
-                   contentEditable={list.editmode}
-                   suppressContentEditableWarning={true}
-                   id={`edit-name-${list.id}`}
-                   
-                  >
-                  
-                    {list.name}
-                  </Title>
-                </span>
+          <span
+            onMouseOver={hoverAddButtton}
+            onClick={addCard}
+            style={{ color: "#92929D" }}
+          >
+            <GrAdd className="list-icon" size="12" />
+          </span>
 
-                <span
-                  onMouseOver={hoverAddButtton}
-                  onClick={addCard}
-                  style={{ color: "#92929D" }}
+          {list.editmode && !list.startlist ? (
+            <span
+              onMouseOver={hoverAddButtton}
+              onClick={(event) => deleteList(event, list.id)}
+              style={{ color: "#92929D" }}
+              id={`delete-list-icon-${list.id}`}
+            >
+              <RiDeleteBin6Line className="list-icon" size="12" />
+            </span>
+          ) : (
+            <span></span>
+          )}
+        </>
+      </Header>
+
+      <ListContent
+        list={list}
+        listIndex={listIndex}
+        //  snapshot={snapshot}
+      />
+    </Container>
+  );
+  return (
+    <>
+      {list.startlist ? (
+        startList(list)
+      ) : (
+        <Draggable
+          draggableId={`${list.id}`}
+          index={listIndex}
+          isDragDisabled={list.pinned}
+        >
+          {(provided, snapshot) => {
+            return (
+              <Container
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                style={getStyle(provided, {})}
+              >
+                <Header
+                  {...provided.dragHandleProps}
+                  onClick={() => setEdit(list)}
                 >
-                  <GrAdd className="list-icon"  size="12" />
-                </span>
+                  <>
+                    <span style={{ display: "flex" }}>
+                      {list.pinned && (
+                        <img src="./img/pin.png" style={{ marginRight: 4 }} />
+                      )}
 
-                {list.editmode ? <span
-                  onMouseOver={hoverAddButtton}
-                  onClick={(event) => deleteList(event , list.id)}
-                  style={{ color: "#92929D" }}
-                  id={`delete-list-icon-${list.id}`}
-                >
-                  <RiDeleteBin6Line className="list-icon"  size="12" />
-                </span> : <span></span>}
-              </>
-            </Header>
-            <ListContent
-              list={list}
-              listIndex={listIndex}
-              snapshot={snapshot}
-            />
-          </Container>
-        );
-      }}
-    </Draggable>
+                      <Title
+                        contentEditable={list.editmode}
+                        suppressContentEditableWarning={true}
+                        id={`edit-name-${list.id}`}
+                      >
+                        {list.name}
+                      </Title>
+                    </span>
+
+                    <span
+                      onMouseOver={hoverAddButtton}
+                      onClick={addCard}
+                      style={{ color: "#92929D" }}
+                    >
+                      <GrAdd className="list-icon" size="12" />
+                    </span>
+
+                    {list.editmode ? (
+                      <span
+                        onMouseOver={hoverAddButtton}
+                        onClick={(event) => deleteList(event, list.id)}
+                        style={{ color: "#92929D" }}
+                        id={`delete-list-icon-${list.id}`}
+                      >
+                        <RiDeleteBin6Line className="list-icon" size="12" />
+                      </span>
+                    ) : (
+                      <span></span>
+                    )}
+                  </>
+                </Header>
+                <ListContent
+                  list={list}
+                  listIndex={listIndex}
+                  snapshot={snapshot}
+                />
+              </Container>
+            );
+          }}
+        </Draggable>
+      )}
+    </>
   );
 };
 

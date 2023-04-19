@@ -4,8 +4,10 @@ import { v4 as uuid } from 'uuid';
 const data = [
     {
         id : uuid(),
-        name : "new List 1",
+        name : "StarterList",
+        startlist :true,
         edit : true,
+        pinned :  true,
         cards : [{
             id : uuid(),
             url : "bbc.com/index.html",
@@ -61,7 +63,7 @@ const data = [
     ,
     {
         id : uuid(),
-        pinned :  true,
+       
         name : "new List 3",
         cards : [{
             id : uuid(),

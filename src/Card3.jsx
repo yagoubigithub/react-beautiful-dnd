@@ -2,22 +2,23 @@ import React, { useContext, useRef } from "react";
 
 import styled from "@xstyled/styled-components";
 import { MdOutlinePerson } from "react-icons/md";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import { Context } from "./context";
 
 const Container = styled.div`
-  background-color: white;
-
+  position: relative;
+  
+  background-color: ${(props) =>(props.startlist && props.edit) ?  "#C0E4FF" : "white"};
   margin-bottom: 8px;
   min-height: 48px;
 
   padding: 8px;
   padding-left: 10px;
   padding-top: 6px;
-  display : flex;
-  flex-direction : column;
+  display: flex;
+  flex-direction: column;
   gap: 6px;
-  outline : none;
-
+  outline: none;
 `;
 
 const Link = styled.div`
@@ -26,7 +27,7 @@ const Link = styled.div`
   font-weight: 400;
 
   color: #30976f;
-  outline : none;
+  outline: none;
 
   white-space: pre-line;
 
@@ -40,7 +41,7 @@ const Comment = styled.div`
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
-  outline : none;
+  outline: none;
 
   color: #4f70ce;
   white-space: pre-line;
@@ -53,13 +54,32 @@ const Title = styled.div`
   font-size: 10px;
   line-height: 12px;
 
-  outline : none;
+  outline: none;
   color: #000000;
   white-space: pre-line;
 `;
 
-const Card = ({ card, listId, provided }) => {
-  const { enterEditMode, save, newValue, setNewValue } = useContext(Context);
+const DeleteButton = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: #676767;
+  width: 27px;
+  height: 27px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Card = ({ card, listId, provided, editmode ,  startlist }) => {
+  const {
+    enterEditMode,
+    save,
+    newValue,
+    setNewValue,
+    data,
+    setData,
+    SaveAllData,
+  } = useContext(Context);
 
   const cardRef = useRef();
 
@@ -78,6 +98,28 @@ const Card = ({ card, listId, provided }) => {
     });
   };
 
+  const hover = (event) => {
+    event.target.style.cursor = "pointer";
+  };
+
+  const deleteCard = (event, listId, id) => {
+    event.stopPropagation();
+    const _data = [...data];
+    const newData = _data.map((list) => {
+      if (list.id === listId) {
+        const cards = [...list.cards];
+        const removeIndex = cards.map((item) => item.id).indexOf(id);
+        if (removeIndex >= 0) {
+          const remeved = cards.splice(removeIndex, 1);
+          list.cards = cards;
+        }
+      }
+      return list;
+    });
+
+    setData([...newData]);
+    SaveAllData([...newData]);
+  };
   return (
     <div ref={cardRef}>
       <Container
@@ -86,6 +128,7 @@ const Card = ({ card, listId, provided }) => {
         {...provided.draggableProps}
         {...provided.dragHandleProps}
         onContextMenu={(e) => handleRightClick(e, listId, card.id)}
+        startlist={startlist}
       >
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div style={{ display: "flex" }}>
@@ -151,6 +194,15 @@ const Card = ({ card, listId, provided }) => {
           >
             {card.comment}
           </Comment>
+        )}
+
+        {editmode && (
+          <DeleteButton
+            onMouseOver={hover}
+            onClick={(event) => deleteCard(event, listId, card.id)}
+          >
+            <RiDeleteBin6Line color="#ffffff" size="16" />
+          </DeleteButton>
         )}
       </Container>
     </div>

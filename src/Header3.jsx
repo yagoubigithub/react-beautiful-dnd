@@ -57,7 +57,7 @@ const Header = () => {
       // Clicked in box
       console.log("Clicked in box")
 
-      const _data = [...data];
+      const _data = JSON.parse(localStorage.getItem("data"));
      
       const newData = _data.map((list) => {
        
@@ -97,7 +97,10 @@ const Header = () => {
           editmode: true,
         };
       } else {
-        return list;
+        return {
+          ...list,
+          editmode :false
+        };
       }
     });
 
@@ -106,7 +109,7 @@ const Header = () => {
   };
   return (
     <Container>
-      <Title>App</Title>
+      <Title>APP</Title>
 
       <span
         style={{

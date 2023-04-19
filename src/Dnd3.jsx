@@ -20,6 +20,15 @@ const Container = styled.div`
   flex-wrap: wrap;
   overflow-y: auto;
 `;
+const EmptySpace = styled.div`
+background: transparent;
+width: 300px;
+height: 480px;
+
+margin: 8px;
+padding: 8px;
+
+`;
 
 const Dnd = () => {
   const { data, setData  , save , SaveAllData  } = useContext(Context);
@@ -65,7 +74,7 @@ const Dnd = () => {
     
     
     
-    const selectedList = _data.filter(list=>list.edit)[0] || {}
+    const selectedList = _data.filter(list=>list.startlist)[0] || {}
 
     const cards = [...selectedList.cards];
     cards.unshift(card)
@@ -156,6 +165,7 @@ const Dnd = () => {
     <div onClick={handleClick}>
 
 <DragDropContext onDragEnd={onDragEnd}>
+<List key={data[0].id} list={data[0]} listIndex={0} />
       <Droppable droppableId="board" type="COLUMN" direction="horizontal">
         {(provided, dropSnapshot) => (
           <Container
@@ -165,9 +175,12 @@ const Dnd = () => {
             isDropDisabled={false}
             isDraggingFrom={Boolean(dropSnapshot.draggingFromThisWith)}
           >
+            <>
+            <EmptySpace />
             {data.map((list, listIndex) => {
-              return <List key={list.id} list={list} listIndex={listIndex} />;
+              return listIndex!== 0 && <List key={list.id} list={list} listIndex={listIndex} />;
             })}
+            </>
             {provided.placeholder}
           </Container>
         )}
