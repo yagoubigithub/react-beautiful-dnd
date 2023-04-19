@@ -61,7 +61,7 @@ const Dnd = () => {
       
     const _data = JSON.parse(localStorage.getItem("data"));
 
-    console.log(_data)
+    
     
     const text = await navigator.clipboard.readText();
    const id  = uuid()

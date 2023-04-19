@@ -7,8 +7,9 @@ import { Context } from "./context";
 
 const Container = styled.div`
   position: relative;
-  
-  background-color: ${(props) =>(props.startlist && props.edit) ?  "#C0E4FF" : "white"};
+
+  background-color: ${(props) =>
+    props.startlist && props.edit ? "#C0E4FF" : "white"};
   margin-bottom: 8px;
   min-height: 48px;
 
@@ -70,7 +71,7 @@ const DeleteButton = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const Card = ({ card, listId, provided, editmode ,  startlist }) => {
+const Card = ({ card, listId, provided, editmode, startlist }) => {
   const {
     enterEditMode,
     save,
@@ -83,10 +84,90 @@ const Card = ({ card, listId, provided, editmode ,  startlist }) => {
 
   const cardRef = useRef();
 
+
+  const skipeditmode = (event ,el) => {
+
+
+    if (event.target.contains(el)){
+      // Clicked in box
+      console.log("Clicked in box")
+   
+   const _data = JSON.parse(localStorage.getItem("data"));
+  
+   const newData = _data.map((list) => {
+     
+    
+     return {
+       ...list,
+       cards : list.cards.map(card=>{
+         return {
+           ...card ,
+           edit : false
+         }
+       })
+     
+     }
+   });
+   
+
+   SaveAllData(newData);
+   setData(newData);
+   document.removeEventListener("click", (event )=> skipeditmode(event , el) , true);
+     
+    } else{
+   // Clicked outside the box
+   console.log("Clicked outside the box")
+
+    }
+
+  }
   const handleRightClick = (e, listId, cardId) => {
-    save().then(() => {
-      enterEditMode(listId, cardId);
-    });
+    if (!startlist) {
+      save().then(() => {
+        enterEditMode(listId, cardId);
+
+        setTimeout(() => {
+          
+
+          document.addEventListener("click", (event )=> skipeditmode(event , document.getElementById(`card-id-${cardId}`)) ,true);
+        }, 200);
+      });
+    } else {
+      const _data = [...data];
+      let index = 0;
+      const newData = _data.map((list) => {
+        if (list.id === listId) {
+          const cards = [...list.cards];
+          index = cards.map((item) => item.id).indexOf(cardId);
+          list.cards = [...reorder(cards, 0, index)];
+
+
+        }
+        return list;
+      });
+
+      setData([...newData]);
+      SaveAllData([...newData]);
+    }
+  };
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const a = result[startIndex];
+    const b = result[endIndex];
+    result[endIndex] = a;
+    result[startIndex] = b;
+
+    return result;
+  };
+
+  const handleClick = (e, listId, cardId) => {
+   
+    if (startlist) {
+      save().then(() => {
+        enterEditMode(listId, cardId);
+      });
+    } else {
+    }
 
     //enter edit mode
   };
@@ -110,7 +191,7 @@ const Card = ({ card, listId, provided, editmode ,  startlist }) => {
         const cards = [...list.cards];
         const removeIndex = cards.map((item) => item.id).indexOf(id);
         if (removeIndex >= 0) {
-          const remeved = cards.splice(removeIndex, 1);
+          cards.splice(removeIndex, 1);
           list.cards = cards;
         }
       }
@@ -120,6 +201,7 @@ const Card = ({ card, listId, provided, editmode ,  startlist }) => {
     setData([...newData]);
     SaveAllData([...newData]);
   };
+
   return (
     <div ref={cardRef}>
       <Container
@@ -128,6 +210,8 @@ const Card = ({ card, listId, provided, editmode ,  startlist }) => {
         {...provided.draggableProps}
         {...provided.dragHandleProps}
         onContextMenu={(e) => handleRightClick(e, listId, card.id)}
+        onClick={(e) => handleClick(e, listId, card.id)}
+        id={`card-id-${card.id}`}
         startlist={startlist}
       >
         <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -196,7 +280,7 @@ const Card = ({ card, listId, provided, editmode ,  startlist }) => {
           </Comment>
         )}
 
-        {editmode && (
+        {card.edit && (
           <DeleteButton
             onMouseOver={hover}
             onClick={(event) => deleteCard(event, listId, card.id)}

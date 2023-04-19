@@ -115,7 +115,7 @@ const List = ({ list, listIndex }) => {
 
     if (removeIndex >= 0) {
       const remeved = _data.splice(removeIndex, 1);
-      console.log(remeved);
+     
     }
 
     setData([..._data]);
