@@ -1,13 +1,14 @@
-const { app , globalShortcut } = require("electron");
+const { app , globalShortcut, ipcMain, dialog } = require("electron");
 
 
 
+let mainWindow;
 app.on("ready", async () => {
   
  
   let db = require("./db");
 
-  let mainWindow = require("./windows/mainWindow");
+   mainWindow = require("./windows/mainWindow");
 
   //dev tools for installing extention help to develop
 
@@ -30,3 +31,12 @@ app.on("ready", async () => {
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
   })
+
+ ipcMain.on(":message" , (event , value)=>{
+  
+   dialog.showMessageBoxSync(mainWindow , {
+
+
+    ...value
+   })
+ })

@@ -84,52 +84,45 @@ const Card = ({ card, listId, provided, editmode, startlist }) => {
 
   const cardRef = useRef();
 
-
-  const skipeditmode = (event ,el) => {
-
-
-    if (event.target.contains(el)){
-      // Clicked in box
-      console.log("Clicked in box")
-   
-   const _data = JSON.parse(localStorage.getItem("data"));
-  
-   const newData = _data.map((list) => {
-     
-    
-     return {
-       ...list,
-       cards : list.cards.map(card=>{
-         return {
-           ...card ,
-           edit : false
-         }
-       })
-     
-     }
-   });
-   
-
-   SaveAllData(newData);
-   setData(newData);
-   document.removeEventListener("click", (event )=> skipeditmode(event , el) , true);
-     
-    } else{
-   // Clicked outside the box
-   console.log("Clicked outside the box")
-
-    }
-
-  }
   const handleRightClick = (e, listId, cardId) => {
+    const el = document.getElementById(`card-id-${cardId}`);
+
+    const _skip = (event) => skipeditmode(event, el);
+
+    const skipeditmode = (event, el) => {
+      console.log(event.target, el);
+      if (el.isEqualNode(event.target) || el.contains(event.target)) {
+        // Clicked in box
+        console.log("Clicked in box");
+      } else {
+        // Clicked outside the box
+        console.log("Clicked outside the box");
+        const _data = JSON.parse(localStorage.getItem("data"));
+
+        const newData = _data.map((list) => {
+          return {
+            ...list,
+            cards: list.cards.map((card) => {
+              return {
+                ...card,
+                edit: false,
+              };
+            }),
+          };
+        });
+
+        SaveAllData(newData);
+        setData(newData);
+        document.removeEventListener("click", _skip, true);
+      }
+    };
+
     if (!startlist) {
       save().then(() => {
         enterEditMode(listId, cardId);
 
         setTimeout(() => {
-          
-
-          document.addEventListener("click", (event )=> skipeditmode(event , document.getElementById(`card-id-${cardId}`)) ,true);
+          document.addEventListener("click", _skip, true);
         }, 200);
       });
     } else {
@@ -140,8 +133,6 @@ const Card = ({ card, listId, provided, editmode, startlist }) => {
           const cards = [...list.cards];
           index = cards.map((item) => item.id).indexOf(cardId);
           list.cards = [...reorder(cards, 0, index)];
-
-
         }
         return list;
       });
@@ -161,7 +152,6 @@ const Card = ({ card, listId, provided, editmode, startlist }) => {
   };
 
   const handleClick = (e, listId, cardId) => {
-   
     if (startlist) {
       save().then(() => {
         enterEditMode(listId, cardId);
@@ -180,7 +170,14 @@ const Card = ({ card, listId, provided, editmode, startlist }) => {
   };
 
   const hover = (event) => {
+    event.stopPropagation();
     event.target.style.cursor = "pointer";
+  };
+  const hoverEdit = (event) => {
+    event.stopPropagation();
+    if (card.edit) {
+      event.target.style.cursor = "text";
+    }
   };
 
   const deleteCard = (event, listId, id) => {
@@ -201,6 +198,16 @@ const Card = ({ card, listId, provided, editmode, startlist }) => {
     setData([...newData]);
     SaveAllData([...newData]);
   };
+  const open = (url, edit) => {
+    if (startlist) {
+    } else {
+      if (!edit) {
+        console.log(url);
+        window.electron.openUrl({ url });
+        return;
+      }
+    }
+  };
 
   return (
     <div ref={cardRef}>
@@ -212,6 +219,7 @@ const Card = ({ card, listId, provided, editmode, startlist }) => {
         onContextMenu={(e) => handleRightClick(e, listId, card.id)}
         onClick={(e) => handleClick(e, listId, card.id)}
         id={`card-id-${card.id}`}
+        onMouseOver={hover}
         startlist={startlist}
       >
         <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -223,6 +231,8 @@ const Card = ({ card, listId, provided, editmode, startlist }) => {
               contentEditable={card.edit}
               suppressContentEditableWarning={true}
               id={`card-url-${card.id}`}
+              onClick={() => open(card.url, card.edit)}
+              onMouseOver={hoverEdit}
             >
               {card.url}
             </Link>
@@ -248,6 +258,7 @@ const Card = ({ card, listId, provided, editmode, startlist }) => {
           suppressContentEditableWarning={true}
           id={`card-title-${card.id}`}
           onInput={(e) => handleInput(e, "title", card.id)}
+          onMouseOver={hoverEdit}
         >
           {card.title}
         </Title>
@@ -262,6 +273,7 @@ const Card = ({ card, listId, provided, editmode, startlist }) => {
                 data-placeholder="Enter comment here"
                 id={`card-comment-${card.id}`}
                 onInput={(e) => handleInput(e, "comment", card.id)}
+                onMouseOver={hoverEdit}
               >
                 {card.comment}
               </Comment>
@@ -275,6 +287,7 @@ const Card = ({ card, listId, provided, editmode, startlist }) => {
             suppressContentEditableWarning={true}
             id={`card-comment-${card.id}`}
             onInput={(e) => handleInput(e, "comment", card.id)}
+            onMouseOver={hoverEdit}
           >
             {card.comment}
           </Comment>

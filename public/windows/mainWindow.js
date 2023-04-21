@@ -1,7 +1,7 @@
 
 const path = require("path");
 
-const { BrowserWindow, app } = require("electron");
+const { BrowserWindow, app , shell } = require("electron");
 
 
 const  { createFileRoute, createURLRoute } = require('electron-router-dom')
@@ -44,6 +44,21 @@ let mainWindow = new BrowserWindow({
     }
 
     
+
+    mainWindow.webContents.setWindowOpenHandler((edata) => {
+      console.log(edata.url)
+      if(!app.isPackaged){
+        
+
+        shell.openExternal(edata.url.split("3000/")[1]);
+      }else{
+        shell.openExternal(edata.url);
+      }
+      
+      return { action: "allow" };
+    });
+  
+  
 
 module.exports = mainWindow;
 

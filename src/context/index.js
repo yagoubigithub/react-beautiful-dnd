@@ -1,7 +1,10 @@
+
 import React, { createContext, useState } from "react";
 import data3 from "../data3";
 
 const Context = createContext();
+
+
 
 function ContextProvider(props) {
   const [data, setData] = useState([...data3]);
@@ -11,14 +14,26 @@ function ContextProvider(props) {
   });
   const [newValue, setNewValue] = useState({});
 
+  
+
   const enterEditMode = (listId, cardId) => {
     const newData = [
       ...data.map((list) => {
         const _listId = list.id;
+       
 
         return {
           ...list,
           cards: list.cards.map((card, _cardIndex) => {
+
+            if(listId === _listId && cardId === card.id){
+              setTimeout(()=>{
+                const el = document.getElementById(`card-comment-${card.id}`)
+                el.focus()
+                window.getSelection().selectAllChildren(el)
+                window.getSelection().collapseToEnd()
+              }, 333)
+            }
             return {
               ...card,
               edit: listId === _listId && cardId === card.id,

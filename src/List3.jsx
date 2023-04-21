@@ -64,12 +64,19 @@ const List = ({ list, listIndex }) => {
     const _data = [...data];
     const newData = _data.map((_list) => {
       if (_list.id === list.id) {
+        const id = uuid()
+        setTimeout(()=>{
+          const el = document.getElementById(`card-comment-${id}`)
+          el.focus()
+          window.getSelection().selectAllChildren(el)
+          window.getSelection().collapseToEnd()
+        }, 333)
         _list.cards = [
           ..._list.cards.map((card) => {
             return { ...card, edit: false };
           }),
           {
-            id: uuid(),
+            id,
             title: "My Title",
             url: "www.google.com",
             comment: "",

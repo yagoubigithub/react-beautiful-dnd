@@ -3,7 +3,7 @@ import Card from "./Card3";
 
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
-import { colors } from "@atlaskit/theme";
+
 import styled from "@xstyled/styled-components";
 
 const getBackgroundColor = (isDraggingOver, isDraggingFrom ) => {

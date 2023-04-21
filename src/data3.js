@@ -10,24 +10,24 @@ const data = [
         pinned :  true,
         cards : [{
             id : uuid(),
-            url : "bbc.com/index.html",
+            url : "https://www.google.com/",
             title :  "Banana Cat Dog Elephant",
             comment : ""
         }, 
         {
             id : uuid(),
-            url : "bbc.com/index.html",
+            url : "https://www.google.com/",
             title :  "Banana Cat Dog Elephant",
             comment : ""
         },
         {
             id : uuid(),
-            url : "bbc.com/index.html",
+            url : "https://www.google.com/",
             title :  "Banana Cat Dog Elephant",
             comment : ""
         },{
             id : uuid(),
-            url : "bbc.com/index.html",
+            url : "https://www.google.com/",
             title :  "Banana Cat Dog Elephant",
             comment : ""
         }]
@@ -38,24 +38,24 @@ const data = [
        
         cards : [{
             id : uuid(),
-            url : "tt.com/index.php",
+            url : "https://www.google.com/",
             title :  "Hello world",
             comment : "This is a comment"
         }, 
         {
             id : uuid(),
-            url : "bbc.com/index.html",
+            url : "https://www.google.com/",
             title :  "Banana Cat Dog Elephant",
             comment : ""
         },
         {
             id : uuid(),
-            url : "bbc.com/index.html",
+            url : "https://www.google.com/",
             title :  "Banana Cat Dog Elephant",
             comment : ""
         },{
             id : uuid(),
-            url : "bbc.com/index.html",
+            url : "https://www.google.com/",
             title :  "Banana Cat Dog Elephant",
             comment : ""
         }]
@@ -67,24 +67,24 @@ const data = [
         name : "new List 3",
         cards : [{
             id : uuid(),
-            url : "bbc.com/index.html",
+            url : "https://www.google.com/",
             title :  "Banana Cat Dog Elephant",
             comment : ""
         }, 
         {
             id : uuid(),
-            url : "bbc.com/index.html",
+            url : "https://www.google.com/",
             title :  "Banana Cat Dog Elephant",
             comment : ""
         },
         {
             id : uuid(),
-            url : "bbc.com/index.html",
+            url : "https://www.google.com/",
             title :  "Banana Cat Dog Elephant",
             comment : ""
         },{
             id : uuid(),
-            url : "bbc.com/index.html",
+            url : "https://www.google.com/",
             title :  "Banana Cat Dog Elephant",
             comment : ""
         }]
@@ -94,24 +94,24 @@ const data = [
         name : "new List 4",
         cards : [{
             id : uuid(),
-            url : "bbc.com/index.html",
+            url : "https://www.google.com/",
             title :  "Banana Cat Dog Elephant",
             comment : ""
         }, 
         {
             id : uuid(),
-            url : "bbc.com/index.html",
+            url : "https://www.google.com/",
             title :  "Banana Cat Dog Elephant",
             comment : ""
         },
         {
             id : uuid(),
-            url : "bbc.com/index.html",
+            url : "https://www.google.com/",
             title :  "Banana Cat Dog Elephant",
             comment : ""
         },{
             id : uuid(),
-            url : "bbc.com/index.html",
+            url : "https://www.google.com/",
             title :  "Banana Cat Dog Elephant",
             comment : ""
         }]

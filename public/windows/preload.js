@@ -1,14 +1,36 @@
 // Copyright 2022-2023 eContriver, LLC
-const {contextBridge, shell , ipcRenderer} = require('electron');
+
+
+const {contextBridge, shell , ipcRenderer , dialog} = require('electron');
+const util = require("util");
 
 
 contextBridge.exposeInMainWorld('electron', {
 
   
-    openUrl:({url}) => {
-     console.log(url)
-        shell.openExternal(url)
+
+  
+    openUrl: async ({url } ) => {
+     
        
+       shell.openExternal(url).then(()=>{
+
+       })
+       .then(()=>{
+
+        
+       })
+       .catch((error)=>{
+           ipcRenderer.send(":message" ,  {
+            title : "error",
+            message : "invalid url we can't open this url"
+        } )
+          
+           
+       })
+
+
+      
         
         
     },

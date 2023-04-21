@@ -52,56 +52,70 @@ const Header = () => {
     sel.addRange(range);
   }
 
-  const skipeditmode = (event ,el) => {
-    if (el.contains(event.target)){
-      // Clicked in box
-      console.log("Clicked in box")
+  const skipeditmode = (event ) => {
 
-      const _data = JSON.parse(localStorage.getItem("data"));
-     
-      const newData = _data.map((list) => {
-       
-        return {
-          ...list,
-          editmode :false
-        }
-      });
-      unselect()
+    if(event.target !== event.currentTarget) return;
+
   
-      SaveAllData(newData);
-      setData(newData);
-    } else{
-      // Clicked outside the box
-      console.log("Clicked outside the box")
-      document.removeEventListener("click", (event )=> skipeditmode(event , el));
-    }
+
+    const _data = JSON.parse(localStorage.getItem("data"));
+     
+    const newData = _data.map((list) => {
+     
+      return {
+        ...list,
+        editmode :false
+      }
+    });
+    unselect()
+
+    SaveAllData(newData);
+    setData(newData);
+
+    document.removeEventListener("click", (event )=> skipeditmode(event ));
 
    
   };
   const setEditMode = () => {
     const _data = [...data];
     let id = "";
+    document.getElementById("board").addEventListener("click", (event )=> skipeditmode(event ));
     const newData = _data.map((list) => {
-      if (list.edit) {
-        console.log("set edit mode");
-        id = `edit-name-${list.id}`;
-        setTimeout(() => {
-          const el = document.getElementById(id)
+      // if (list.edit) {
+      //   console.log("set edit mode");
+      //   id = `edit-name-${list.id}`;
+      //   setTimeout(() => {
+      //     const el = document.getElementById(id)
         
-          selectElementContents(el);
+      //     selectElementContents(el);
 
-          document.addEventListener("click", (event )=> skipeditmode(event , el));
-        }, 200);
-        return {
-          ...list,
-          editmode: true,
-        };
-      } else {
-        return {
-          ...list,
-          editmode :false
-        };
-      }
+      //     document.addEventListener("click", (event )=> skipeditmode(event , el));
+      //   }, 200);
+      //   return {
+      //     ...list,
+      //     editmode: true,
+      //   };
+      // } else {
+      //   return {
+      //     ...list,
+      //     editmode :false
+      //   };
+      // }
+
+    
+   if(list.edit){
+    console.log("set edit mode");
+    id = `edit-name-${list.id}`;
+    
+      const el = document.getElementById(id)
+    
+      selectElementContents(el);
+   }
+
+      return {
+        ...list,
+        editmode :true
+      };
     });
 
     SaveAllData(newData);

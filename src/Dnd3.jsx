@@ -13,12 +13,15 @@ import { Context } from "./context";
 const Container = styled.div`
   background-color: #4c9aff;
   max-height: calc(100vh - 34px);
+
   height: calc(100vh - 34px);
 
   min-width: 100vw;
-  display: inline-flex;
+  max-width :100vw;
+  display: flex;
   flex-wrap: wrap;
   overflow-y: auto;
+  align-content: flex-start;
 `;
 const EmptySpace = styled.div`
 background: transparent;
@@ -170,6 +173,7 @@ const Dnd = () => {
         {(provided, dropSnapshot) => (
           <Container
             ref={provided.innerRef}
+            id="board"
             {...provided.droppableProps}
             isDraggingOver={dropSnapshot.isDraggingOver}
             isDropDisabled={false}
