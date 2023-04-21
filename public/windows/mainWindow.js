@@ -20,10 +20,10 @@ const fileRoute = createFileRoute(
 
 let mainWindow = new BrowserWindow({
   show: true,
-  // height: 1040,
-  // width: 1920,
-  // minWidth : 1920,
-  // minHeight : 1040,
+  height: 1040,
+  width: 1920,
+  minWidth : 1920,
+  minHeight : 1040,
   useContentSize: true,
   // frame : false,
   webPreferences: {
