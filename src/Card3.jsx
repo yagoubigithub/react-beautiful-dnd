@@ -85,60 +85,79 @@ const Card = ({ card, listId, provided, editmode, startlist }) => {
   const cardRef = useRef();
 
   const handleRightClick = (e, listId, cardId) => {
-    const el = document.getElementById(`card-id-${cardId}`);
+   
+    if(card.edit){
 
-    const _skip = (event) => skipeditmode(event, el);
 
-    const skipeditmode = (event, el) => {
-      console.log(event.target, el);
-      if (el.isEqualNode(event.target) || el.contains(event.target)) {
-        // Clicked in box
-        console.log("Clicked in box");
-      } else {
-        // Clicked outside the box
-        console.log("Clicked outside the box");
-        const _data = JSON.parse(localStorage.getItem("data"));
-
-        const newData = _data.map((list) => {
-          return {
-            ...list,
-            cards: list.cards.map((card) => {
-              return {
-                ...card,
-                edit: false,
-              };
-            }),
-          };
-        });
-
-        SaveAllData(newData);
-        setData(newData);
-        document.removeEventListener("click", _skip, true);
-      }
-    };
-
-    if (!startlist) {
-      save().then(() => {
-        enterEditMode(listId, cardId);
-
-        setTimeout(() => {
-          document.addEventListener("click", _skip, true);
-        }, 200);
-      });
-    } else {
       const _data = [...data];
-      let index = 0;
-      const newData = _data.map((list) => {
-        if (list.id === listId) {
-          const cards = [...list.cards];
-          index = cards.map((item) => item.id).indexOf(cardId);
-          list.cards = [...reorder(cards, 0, index)];
-        }
-        return list;
-      });
+        let index = 0;
+        const newData = _data.map((list) => {
+          if (list.id === listId) {
+            const cards = [...list.cards];
+            index = cards.map((item) => item.id).indexOf(cardId);
+            list.cards = [...reorder(cards, 0, index)];
+          }
+          return list;
+        });
+  
+        setData([...newData]);
+        SaveAllData([...newData]);
+    }else{
+      const el = document.getElementById(`card-id-${cardId}`);
 
-      setData([...newData]);
-      SaveAllData([...newData]);
+      const _skip = (event) => skipeditmode(event, el);
+  
+      const skipeditmode = (event, el) => {
+        console.log(event.target, el);
+        if (el.isEqualNode(event.target) || el.contains(event.target)) {
+          // Clicked in box
+          console.log("Clicked in box");
+        } else {
+          // Clicked outside the box
+          console.log("Clicked outside the box");
+          const _data = JSON.parse(localStorage.getItem("data"));
+  
+          const newData = _data.map((list) => {
+            return {
+              ...list,
+              cards: list.cards.map((card) => {
+                return {
+                  ...card,
+                  edit: false,
+                };
+              }),
+            };
+          });
+  
+          SaveAllData(newData);
+          setData(newData);
+          document.removeEventListener("click", _skip, true);
+        }
+      };
+  
+      if (!startlist) {
+        save().then(() => {
+          enterEditMode(listId, cardId);
+  
+          setTimeout(() => {
+            document.addEventListener("click", _skip, true);
+          }, 200);
+        });
+      } else {
+        const _data = [...data];
+        let index = 0;
+        const newData = _data.map((list) => {
+          if (list.id === listId) {
+            const cards = [...list.cards];
+            index = cards.map((item) => item.id).indexOf(cardId);
+            list.cards = [...reorder(cards, 0, index)];
+          }
+          return list;
+        });
+  
+        setData([...newData]);
+        SaveAllData([...newData]);
+      }
     }
   };
   const reorder = (list, startIndex, endIndex) => {
